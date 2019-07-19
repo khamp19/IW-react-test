@@ -59,7 +59,9 @@ class NewUserForm extends Component {
 
   addUser = (e) => {
     e.preventDefault();
-    this.props.makeUser(this.state);
+    // this.props.makeUser(this.state);
+    this.props.users.push(this.state);
+    console.log('props', this.props.users);
     this.setState({
       name: '',
       email: '',
@@ -136,6 +138,7 @@ NewUserForm.propTypes = {
 
 const mapStateToProps = state => {
   return {
+    users: state.UsersReducer.users,
     new_user: state.NewUserReducer.new_user,
     making_user: state.NewUserReducer.making_user,
     make_user_error: state.NewUserReducer.make_user_error,

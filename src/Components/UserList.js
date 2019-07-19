@@ -21,18 +21,20 @@ const styles = theme => ({
 class UserList extends Component {
   constructor(props){
     super(props);
-    this.props.getAllUsers();
+    // this.props.getAllUsers();
     this.state = {
       users: [],
       hasData: false,
     }
   }
 
-  // componentDidMount(){
-  //   if(this.props.users){
-  //     this.sortUsers();
-  //   }
-  // }
+  componentDidMount(){
+    // if(this.props.users){
+    //   this.sortUsers();
+    // }
+    const users = this.props.users;
+    this.setState({ users: users})
+  }
 
   // sortUsers(){
   //   // if (this.props.users) {
@@ -47,13 +49,20 @@ class UserList extends Component {
   //   // }
   // }
 
+  componentDidUpdate(prevProps){
+    if(this.props.users.length !== prevProps.users.length){
+      this.setState({ users: this.props.users })
+      console.log('state', this.state);
+    }
+  }
+
   render(){
     // if (this.state.hasData) {
     //   this.sortUsers();
     // }
 
     let unList = [];
-    this.props.users.forEach(user => {
+    this.state.users.forEach(user => {
       unList.push(user.name);
     })
     unList.sort()

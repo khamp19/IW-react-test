@@ -1,6 +1,6 @@
 * {
-	margin: 0;
-	padding: 0;
+	margin: 10;
+	padding: 10;
 	box-sizing: border-box;
 }
 
@@ -9,4 +9,18 @@ body {
 		"Droid Sans", "Helvetica Neue", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+button {
+	margin: 10px;
+	padding: 10px;
+}
+
+input {
+	margin: 10px;
+	padding: 10px;
+}
+
+.new-user-form{
+	margin: 25px;
 }

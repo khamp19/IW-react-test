@@ -25,10 +25,13 @@ export const getAllUsers = () => {
 }
 
 
-//create new user
+//create new user- doesn't update data source
 export const makeUser = (userData) => {
   return dispatch => {
     dispatch({ type: MAKING_USER })
+    // get user list
+    // add new user to list
+    //return list
     axios.post(DATA_URL)
       .then((res) => {
         console.log('res', res);
