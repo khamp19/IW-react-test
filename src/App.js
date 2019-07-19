@@ -52,7 +52,7 @@ class App extends Component{
 		e.preventDefault();
 		if(name.indexOf(' ') < 0){
 			this.setState({ userError: true })
-		} else if (email.indexOf('@') < 0 || email.indexOf('.com') < 0){
+		} else if (email.indexOf('@') < 0){
 			this.setState({ emailError: true })
 		} else {
 			this.props.users.push(this.state);
@@ -133,7 +133,7 @@ class App extends Component{
 							value={name}
 							onChange={this.handleInput} 
 						/>
-						{userError ? <p>Please enter first and last name</p> : null}
+						{userError ? <p style={{color: 'red'}}>Please enter first and last name. Input is case sensitive </p> : null}
 						<input
 							type="text"
 							required
@@ -142,7 +142,7 @@ class App extends Component{
 							value={email}
 							onChange={this.handleInput} 
 						/>
-						{emailError ? <p>Please enter a valid email</p> : null}
+						{emailError ? <p style={{color: 'red'}}>Please enter a valid email</p> : null}
 						<button onClick={this.addUser}>Add User</button>
 					</form>
 				</div>
