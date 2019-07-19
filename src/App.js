@@ -16,6 +16,8 @@ class App extends Component{
 			},
 			usersPerPage: 5,
 			currentPage: 1,
+			userError: false,
+			emailError: false,
 		}
 	}
 
@@ -24,7 +26,6 @@ class App extends Component{
 		this.setState({ users: users });
 	}
 
-	//not working
 	componentDidUpdate(prevProps) {
 		if (this.props.users.length !== prevProps.users.length) {
 			this.userUpdate();
@@ -34,19 +35,28 @@ class App extends Component{
 	userUpdate = () => {
 		const users = this.props.users;
 		this.setState({ users: users})
-		console.log('state', this.state);
+		// console.log('state', this.state);
 	}
 
 	handleInput = (e) => {
 		this.setState({
 			[e.target.name]: e.target.value,
+			userError: false,
+			emailError: false
 		})
 	}
 
 	addUser = (e) => {
+		const name = this.state.name;
+		const email = this.state.email;
 		e.preventDefault();
-		// this.props.makeUser(this.state);
-		this.props.users.push(this.state);
+		if(name.indexOf(' ') < 0){
+			this.setState({ userError: true })
+		} else if (email.indexOf('@') < 0 || email.indexOf('.com') < 0){
+			this.setState({ emailError: true })
+		} else {
+			this.props.users.push(this.state);
+		}
 		console.log('props', this.props.users);
 		this.setState({
 			name: '',
@@ -65,11 +75,7 @@ class App extends Component{
 	}
 
 	render(){
-		const { name, email, users, usersPerPage, currentPage } = this.state;
-		//background
-		// if (user.email.indexOf(".biz") > 0) {
-		// 	this.setState({ backgroundColor: "green" })
-		// }
+		const { name, email, usersPerPage, currentPage, userError, emailError } = this.state;
 
 		//sort
 		let unList = [];
@@ -96,6 +102,9 @@ class App extends Component{
 		let lastUser = usersPerPage * currentPage;
 		let firstUser = lastUser - usersPerPage;
 		let page = allUsers.slice(firstUser, lastUser);
+		// let lastPage = Math.round(allUsers.length / usersPerPage);
+		// console.log('lastPage', lastPage);
+		// console.log('currentPage', currentPage);
 
 		return (
 			<div>
@@ -104,15 +113,6 @@ class App extends Component{
 					<div>
 						{this.props.getting_users ? <h4>getting users</h4> : null}
 						{this.props.get_users_error ? <h4>error: cannot get users</h4> : null}						
-						{/*unList.length > 0 &&
-							<div>
-								{unList.map((user) => {
-									return (
-										<div key={user}>{user}</div>
-									)
-								})}
-							</div>
-							*/}
 						{page}
 						{currentPage > 1 &&
 							<button onClick={this.prevPage}>Previous</button>
@@ -127,18 +127,22 @@ class App extends Component{
 					<form onSubmit={this.addUser}>
 						<input
 							type="text"
+							required
 							name="name"
 							placeholder="Full name"
 							value={name}
 							onChange={this.handleInput} 
 						/>
+						{userError ? <p>Please enter first and last name</p> : null}
 						<input
 							type="text"
+							required
 							name="email"
 							placeholder="email"
 							value={email}
 							onChange={this.handleInput} 
 						/>
+						{emailError ? <p>Please enter a valid email</p> : null}
 						<button onClick={this.addUser}>Add User</button>
 					</form>
 				</div>
