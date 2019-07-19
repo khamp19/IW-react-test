@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import NewUserForm from './Components/NewUserForm';
-import UserList from './Components/UserList';
 import { connect } from  'react-redux';
 import { getAllUsers } from './Actions';
 
@@ -13,8 +11,8 @@ class App extends Component{
 			name: '',
 			email: '',
 			backgroundColor: {
-				backgroundColor: "whitesmoke",
-				color: "black",
+				backgroundColor: "green",
+				color: "white",
 			},
 			usersPerPage: 5,
 			currentPage: 1,
@@ -76,21 +74,28 @@ class App extends Component{
 		//sort
 		let unList = [];
 		this.state.users.forEach(user => {
-			unList.push(user.name);
+			unList.push([user.name, user.email]);
 		})
 		unList.sort()
 
+
 		const allUsers = unList.map((user) => {
-			return (
-				<div key={user}>{user}</div>
-			)
+			if (user[1].indexOf(".biz") > 0){
+				return ( 
+					<div key={user} style={this.state.backgroundColor}>{user[0]}</div>
+				)
+			} else {
+				return (
+					<div key={user}>{user[0]}</div>
+				)
+			}
+			
 		});
 
 		//pagination
 		let lastUser = usersPerPage * currentPage;
 		let firstUser = lastUser - usersPerPage;
 		let page = allUsers.slice(firstUser, lastUser);
-		// console.log('sorted', unList);
 
 		return (
 			<div>
